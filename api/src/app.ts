@@ -16,4 +16,9 @@ app.use((_req, res, next) => {
   next();
 });
 
+app.get("/help", async (_req, _res, next) => {
+  console.log("help");
+  next();
+});
+
 export default app;

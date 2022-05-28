@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "node"
+    ],
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -16,5 +19,5 @@
   },
   "include": [
     "src/**/*"
-  ]
+, "knexfile.ts"  ]
 }

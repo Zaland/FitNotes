@@ -7,7 +7,10 @@
   "scripts": {
     "dev": "nodemon dist/server.js",
     "build": "tsc",
-    "start": "ts-node ./src/server.ts"
+    "start": "ts-node ./src/server.ts",
+    "migrate-up": "knex migrate:up",
+    "migrate-down": "knex migrate:down",
+    "rollback": "knex migrate:rollback"
   },
   "dependencies": {
     "axios": "^0.27.2",

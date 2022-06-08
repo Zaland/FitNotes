@@ -8,6 +8,9 @@
     "dev-api": "yarn --cwd packages/api dev",
     "start-api": "yarn --cwd packages/api start",
     "build-api": "yarn --cwd packages/api build",
+    "migrate-up": "yarn --cwd packages/api migrate-up",
+    "migrate-down": "yarn --cwd packages/api migrate-down",
+    "rollback": "yarn --cwd packages/api rollback",
     "start-client": "yarn --cwd packages/client start",
     "build-client": "yarn --cwd packages/client build"
   }

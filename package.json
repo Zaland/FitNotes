@@ -3,5 +3,12 @@
   "private": true,
   "devDependencies": {
     "lerna": "^5.1.0"
+  },
+  "scripts": {
+    "dev-api": "yarn --cwd packages/api dev",
+    "start-api": "yarn --cwd packages/api start",
+    "build-api": "yarn --cwd packages/api build",
+    "start-client": "yarn --cwd packages/client start",
+    "build-client": "yarn --cwd packages/client build"
   }
 }

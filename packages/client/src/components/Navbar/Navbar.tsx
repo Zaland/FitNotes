@@ -1,4 +1,5 @@
 import { useState, ReactNode } from "react";
+import { signOut } from "supertokens-auth-react/recipe/emailpassword";
 import { useTheme } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight, Menu, Logout } from "@mui/icons-material";
 import {
@@ -36,10 +37,15 @@ export const Navbar = ({ children }: NavbarProps) => {
     setOpen(false);
   };
 
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = "/";
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} drawerWidth={drawerWidth}>
+      <AppBar position="fixed" open={open} width={drawerWidth}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -76,7 +82,7 @@ export const Navbar = ({ children }: NavbarProps) => {
         <Divider />
         <List>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={handleLogout}>
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>
@@ -85,7 +91,7 @@ export const Navbar = ({ children }: NavbarProps) => {
           </ListItem>
         </List>
       </Drawer>
-      <Main open={open} drawerWidth={drawerWidth}>
+      <Main open={open} width={drawerWidth}>
         <DrawerHeader />
         {children}
       </Main>

@@ -57,7 +57,7 @@ export const Navbar = ({ children }: NavbarProps) => {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            FitNotes
           </Typography>
         </Toolbar>
       </AppBar>

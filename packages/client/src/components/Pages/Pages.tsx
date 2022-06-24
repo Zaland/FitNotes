@@ -1,27 +1,27 @@
 import { ThemeProvider } from "@mui/material";
 import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
-import { EmailPasswordAuth } from "supertokens-auth-react/recipe/emailpassword";
+import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
 import * as reactRouterDom from "react-router-dom";
 
 import { Navbar } from "../Navbar";
+import { Home } from "./Home";
 import { theme } from "./styles";
 
-export const Pages = () => (
-  <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
+export const Pages = () => {
+  const { doesSessionExist } = useSessionContext();
 
-        <Route
-          path="/"
-          element={
-            <EmailPasswordAuth>
-              <Navbar />
-            </EmailPasswordAuth>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  </ThemeProvider>
-);
+  return (
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Navbar>
+          <Routes>
+            {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
+
+            {doesSessionExist && <Route path="/" element={<Home />} />}
+          </Routes>
+        </Navbar>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
+};

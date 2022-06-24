@@ -1,5 +1,9 @@
 import { styled } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import {
+  Drawer as MuiDrawer,
+  DrawerProps as MuiDrawerProps,
+} from "@mui/material";
 
 interface MainProps {
   open?: boolean;
@@ -7,6 +11,10 @@ interface MainProps {
 }
 
 interface AppBarProps extends MuiAppBarProps, MainProps {}
+
+interface DrawerProps extends MuiDrawerProps {
+  width: number;
+}
 
 export const Main = styled("main", {
   shouldForwardProp: (prop) => prop !== "open",
@@ -51,4 +59,13 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
+}));
+
+export const Drawer = styled(MuiDrawer)<DrawerProps>(({ width }) => ({
+  width,
+  flexShrink: 0,
+  "& .MuiDrawer-paper": {
+    width,
+    boxSizing: "border-box",
+  },
 }));

@@ -1,5 +1,7 @@
 import SuperTokens from "supertokens-auth-react";
-import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import EmailPassword, {
+  EmailPasswordAuth,
+} from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 
 import { Pages } from "./components/Pages";
@@ -22,4 +24,8 @@ SuperTokens.init({
   ],
 });
 
-export const App = () => <Pages />;
+export const App = () => (
+  <EmailPasswordAuth requireAuth={false}>
+    <Pages />
+  </EmailPasswordAuth>
+);

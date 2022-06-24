@@ -1,10 +1,16 @@
 import { useState, ReactNode } from "react";
+import { useLocation, Link } from "react-router-dom";
 import { signOut } from "supertokens-auth-react/recipe/emailpassword";
 import { useTheme } from "@mui/material/styles";
-import { ChevronLeft, ChevronRight, Menu, Logout } from "@mui/icons-material";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  Logout,
+  Home,
+} from "@mui/icons-material";
 import {
   Box,
-  Drawer,
   CssBaseline,
   Toolbar,
   List,
@@ -17,7 +23,7 @@ import {
   ListItemText,
 } from "@mui/material";
 
-import { Main, AppBar, DrawerHeader } from "./styles";
+import { Main, AppBar, DrawerHeader, Drawer } from "./styles";
 
 const drawerWidth = 240;
 
@@ -26,8 +32,11 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ children }: NavbarProps) => {
+  const location = useLocation();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
+
+  console.log({ location });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -62,17 +71,10 @@ export const Navbar = ({ children }: NavbarProps) => {
         </Toolbar>
       </AppBar>
       <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
         variant="persistent"
         anchor="left"
         open={open}
+        width={drawerWidth}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -81,6 +83,18 @@ export const Navbar = ({ children }: NavbarProps) => {
         </DrawerHeader>
         <Divider />
         <List>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              selected={location.pathname === "/"}
+              to="/"
+            >
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItemButton>
+          </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={handleLogout}>
               <ListItemIcon>

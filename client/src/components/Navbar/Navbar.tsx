@@ -36,8 +36,6 @@ export const Navbar = ({ children }: NavbarProps) => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
 
-  console.log({ location });
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };

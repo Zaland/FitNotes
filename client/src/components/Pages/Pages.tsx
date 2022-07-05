@@ -6,6 +6,7 @@ import * as reactRouterDom from "react-router-dom";
 
 import { Navbar } from "../Navbar";
 import { Home } from "./Home";
+import { Settings } from "./Settings";
 import { theme } from "./styles";
 
 export const Pages = () => {
@@ -18,7 +19,12 @@ export const Pages = () => {
           <Routes>
             {getSuperTokensRoutesForReactRouterDom(reactRouterDom)}
 
-            {doesSessionExist && <Route path="/" element={<Home />} />}
+            {doesSessionExist && (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/settings" element={<Settings />} />
+              </>
+            )}
           </Routes>
         </Navbar>
       </BrowserRouter>

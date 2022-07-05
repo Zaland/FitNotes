@@ -8,6 +8,7 @@ import {
   Menu,
   Logout,
   Home,
+  Settings,
 } from "@mui/icons-material";
 import {
   Box,
@@ -26,6 +27,11 @@ import {
 import { Main, AppBar, DrawerHeader, Drawer } from "./styles";
 
 const drawerWidth = 240;
+
+const menuItems = [
+  { icon: <Home />, label: "Home", path: "/" },
+  { icon: <Settings />, label: "Settings", path: "/settings" },
+];
 
 interface NavbarProps {
   children?: ReactNode;
@@ -81,18 +87,19 @@ export const Navbar = ({ children }: NavbarProps) => {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              selected={location.pathname === "/"}
-              to="/"
-            >
-              <ListItemIcon>
-                <Home />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItemButton>
-          </ListItem>
+          {menuItems.map((item) => (
+            <ListItem disablePadding key={item.label}>
+              <ListItemButton
+                component={Link}
+                selected={location.pathname === item.path}
+                to={item.path}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+
           <ListItem disablePadding>
             <ListItemButton onClick={handleLogout}>
               <ListItemIcon>
@@ -103,6 +110,7 @@ export const Navbar = ({ children }: NavbarProps) => {
           </ListItem>
         </List>
       </Drawer>
+
       <Main open={open} width={drawerWidth}>
         <DrawerHeader />
         {children}

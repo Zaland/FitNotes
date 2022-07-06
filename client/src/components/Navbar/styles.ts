@@ -3,6 +3,8 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import {
   Drawer as MuiDrawer,
   DrawerProps as MuiDrawerProps,
+  ListItem,
+  ListItemProps,
 } from "@mui/material";
 
 interface MainProps {
@@ -67,5 +69,16 @@ export const Drawer = styled(MuiDrawer)<DrawerProps>(({ width }) => ({
   "& .MuiDrawer-paper": {
     width,
     boxSizing: "border-box",
+  },
+}));
+
+export const NavItem = styled(ListItem)<ListItemProps>(() => ({
+  "&& .Mui-selected": {
+    backgroundColor: "#8667D2 !important",
+    color: "white",
+  },
+  "&:hover": {
+    backgroundColor: "#BAA8E5",
+    color: "white",
   },
 }));

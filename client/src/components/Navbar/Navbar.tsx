@@ -18,13 +18,12 @@ import {
   Typography,
   Divider,
   IconButton,
-  ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
+  ListItemButton,
 } from "@mui/material";
 
-import { Main, AppBar, DrawerHeader, Drawer } from "./styles";
+import { Main, AppBar, DrawerHeader, Drawer, NavItem } from "./styles";
 
 const drawerWidth = 240;
 
@@ -88,26 +87,28 @@ export const Navbar = ({ children }: NavbarProps) => {
         <Divider />
         <List>
           {menuItems.map((item) => (
-            <ListItem disablePadding key={item.label}>
+            <NavItem disablePadding key={item.label}>
               <ListItemButton
                 component={Link}
                 selected={location.pathname === item.path}
                 to={item.path}
               >
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon sx={{ color: "inherit" }}>
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText primary={item.label} />
               </ListItemButton>
-            </ListItem>
+            </NavItem>
           ))}
 
-          <ListItem disablePadding>
+          <NavItem disablePadding>
             <ListItemButton onClick={handleLogout}>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: "inherit" }}>
                 <Logout />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItemButton>
-          </ListItem>
+          </NavItem>
         </List>
       </Drawer>
 

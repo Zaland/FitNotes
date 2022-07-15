@@ -6,6 +6,7 @@ import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import { middleware, errorHandler } from "supertokens-node/framework/express";
 import dotenv from "dotenv";
+import UserRouter from "./routes/User.route";
 
 // init env values
 dotenv.config();
@@ -46,10 +47,7 @@ app.use(
 app.use(middleware());
 
 // endpoints
-app.get("/help", async (_req, _res, next) => {
-  console.log("help");
-  next();
-});
+app.use("/user", UserRouter);
 
 // supertokens error handler
 app.use(errorHandler());

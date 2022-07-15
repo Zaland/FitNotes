@@ -3,6 +3,7 @@ import EmailPassword, {
   EmailPasswordAuth,
 } from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
+import { CssBaseline } from "@mui/material";
 
 import { Pages } from "./components/Pages";
 
@@ -25,7 +26,10 @@ SuperTokens.init({
 });
 
 export const App = () => (
-  <EmailPasswordAuth requireAuth={false}>
-    <Pages />
-  </EmailPasswordAuth>
+  <>
+    <CssBaseline />
+    <EmailPasswordAuth requireAuth={false}>
+      <Pages />
+    </EmailPasswordAuth>
+  </>
 );

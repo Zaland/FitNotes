@@ -1,121 +1,103 @@
-import { useState, ReactNode } from "react";
-import { useLocation, Link } from "react-router-dom";
-import { signOut } from "supertokens-auth-react/recipe/emailpassword";
-import { useTheme } from "@mui/material/styles";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Menu,
-  Logout,
-  Home,
-  Settings,
-} from "@mui/icons-material";
 import {
   Box,
-  CssBaseline,
-  Toolbar,
-  List,
-  Typography,
-  Divider,
+  Flex,
+  Avatar,
+  HStack,
   IconButton,
-  ListItemIcon,
-  ListItemText,
-  ListItemButton,
-} from "@mui/material";
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useDisclosure,
+  Stack,
+} from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  signOut,
+  redirectToAuth,
+} from "supertokens-auth-react/recipe/emailpassword";
 
-import { Main, AppBar, DrawerHeader, Drawer, NavItem } from "./styles";
+import { NavLink } from "./NavLink";
+import { Colors } from "../../theme/colors";
 
-const drawerWidth = 240;
+const Links = [{ label: "Home", path: "/" }];
 
-const menuItems = [
-  { icon: <Home />, label: "Home", path: "/" },
-  { icon: <Settings />, label: "Settings", path: "/settings" },
-];
-
-interface NavbarProps {
-  children?: ReactNode;
-}
-
-export const Navbar = ({ children }: NavbarProps) => {
-  const location = useLocation();
-  const theme = useTheme();
-  const [open, setOpen] = useState(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+export const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleLogout = async () => {
     await signOut();
-    window.location.href = "/";
+    redirectToAuth();
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} width={drawerWidth}>
-        <Toolbar>
+    <>
+      <Box bg={Colors.purple} px={4}>
+        <Flex h={16} alignItems="center" justifyContent="space-between">
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            FitNotes
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open={open}
-        width={drawerWidth}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {menuItems.map((item) => (
-            <NavItem disablePadding key={item.label}>
-              <ListItemButton
-                component={Link}
-                selected={location.pathname === item.path}
-                to={item.path}
+            size="md"
+            bg={Colors.purple}
+            color={Colors.white}
+            _hover={{
+              bg: Colors.darkPurple,
+            }}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label="Open Menu"
+            display={{ md: "none" }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack spacing={8} alignItems="center">
+            <Box color={Colors.white} fontWeight="bold" letterSpacing={2}>
+              FitNotes
+            </Box>
+            <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+              {Links.map((link) => (
+                <NavLink key={link.label} label={link.label} path={link.path} />
+              ))}
+            </HStack>
+          </HStack>
+          <Flex alignItems="center">
+            <Menu>
+              <MenuButton
+                as={Button}
+                rounded="full"
+                variant="link"
+                cursor="pointer"
+                minW={0}
               >
-                <ListItemIcon sx={{ color: "inherit" }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </NavItem>
-          ))}
+                <Avatar
+                  size="sm"
+                  src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem as={RouterLink} to="/settings">
+                  Settings
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+        </Flex>
 
-          <NavItem disablePadding>
-            <ListItemButton onClick={handleLogout}>
-              <ListItemIcon sx={{ color: "inherit" }}>
-                <Logout />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItemButton>
-          </NavItem>
-        </List>
-      </Drawer>
-
-      <Main open={open} width={drawerWidth}>
-        <DrawerHeader />
-        {children}
-      </Main>
-    </Box>
+        {isOpen ? (
+          <Box pb={4} display={{ md: "none" }}>
+            <Stack as="nav" spacing={4}>
+              {Links.map((link) => (
+                <NavLink key={link.label} label={link.label} path={link.path} />
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
   );
 };

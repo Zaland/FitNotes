@@ -3,7 +3,7 @@ import EmailPassword, {
   EmailPasswordAuth,
 } from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
-import { CssBaseline } from "@mui/material";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import { Pages } from "./components/Pages";
 
@@ -26,10 +26,9 @@ SuperTokens.init({
 });
 
 export const App = () => (
-  <>
-    <CssBaseline />
+  <ChakraProvider>
     <EmailPasswordAuth requireAuth={false}>
       <Pages />
     </EmailPasswordAuth>
-  </>
+  </ChakraProvider>
 );

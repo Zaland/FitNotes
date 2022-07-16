@@ -18,7 +18,7 @@ export const NavLink = ({ label, path }: NavLinkProps) => (
     letterSpacing={2}
     _hover={{
       textDecoration: "none",
-      bg: Colors.darkPurple,
+      bg: Colors.purpleHover,
     }}
     as={RouterLink}
     to={path}

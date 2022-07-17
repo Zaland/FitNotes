@@ -17,6 +17,9 @@ SuperTokens.init({
   },
   recipeList: [
     EmailPassword.init({
+      signInAndUpFeature: {
+        disableDefaultUI: true,
+      },
       emailVerificationFeature: {
         mode: "REQUIRED",
       },

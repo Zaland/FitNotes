@@ -15,10 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  signOut,
-  redirectToAuth,
-} from "supertokens-auth-react/recipe/emailpassword";
+import { signOut } from "supertokens-auth-react/recipe/emailpassword";
 
 import { NavLink } from "./NavLink";
 import { Colors } from "../../theme/colors";
@@ -30,7 +27,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await signOut();
-    redirectToAuth();
+    window.location.href = "/auth/signin";
   };
 
   return (

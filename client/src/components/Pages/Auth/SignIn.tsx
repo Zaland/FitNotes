@@ -67,7 +67,11 @@ export const SignIn = () => {
               align="start"
               justify="space-between"
             >
-              <Link color={Colors.purple} _hover={{ textDecoration: "none" }}>
+              <Link
+                color={Colors.purple}
+                _hover={{ textDecoration: "none" }}
+                href="/auth/forgot-password"
+              >
                 Forgot password?
               </Link>
             </Stack>
@@ -86,7 +90,11 @@ export const SignIn = () => {
           <Stack>
             <Text>
               No account?{" "}
-              <Link color={Colors.purple} _hover={{ textDecoration: "none" }}>
+              <Link
+                color={Colors.purple}
+                _hover={{ textDecoration: "none" }}
+                href="/auth/signup"
+              >
                 Sign up now!
               </Link>
             </Text>

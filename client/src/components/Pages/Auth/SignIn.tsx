@@ -9,6 +9,7 @@ import {
   Button,
   Heading,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 
 import { AuthService } from "../../../services";
@@ -20,8 +21,7 @@ export const SignIn = () => {
 
   const handleSignIn = async () => {
     try {
-      const result = await AuthService.signin(email, password);
-      console.log({ result });
+      await AuthService.signin(email, password);
     } catch (error) {
       console.log({ error });
     }
@@ -61,7 +61,7 @@ export const SignIn = () => {
               }}
             />
           </FormControl>
-          <Stack spacing={10}>
+          <Stack spacing={5}>
             <Stack
               direction={{ base: "column", sm: "row" }}
               align="start"
@@ -82,6 +82,14 @@ export const SignIn = () => {
             >
               Sign in
             </Button>
+          </Stack>
+          <Stack>
+            <Text>
+              No account?{" "}
+              <Link color={Colors.purple} _hover={{ textDecoration: "none" }}>
+                Sign up now!
+              </Link>
+            </Text>
           </Stack>
         </Stack>
       </Box>

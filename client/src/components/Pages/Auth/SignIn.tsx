@@ -3,7 +3,6 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Input,
   Stack,
   Link,
   Button,
@@ -12,6 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+import { Input } from "../../Reusable/Input";
 import { AuthService } from "../../../services";
 import { Colors } from "../../../theme";
 
@@ -44,10 +44,6 @@ export const SignIn = () => {
             <Input
               type="email"
               onChange={(event) => setEmail(event.target.value)}
-              _focusVisible={{
-                borderColor: Colors.purple,
-                boxShadow: `0 0 0 1px ${Colors.purple}`,
-              }}
             />
           </FormControl>
           <FormControl id="password">
@@ -55,10 +51,6 @@ export const SignIn = () => {
             <Input
               type="password"
               onChange={(event) => setPassword(event.target.value)}
-              _focusVisible={{
-                borderColor: Colors.purple,
-                boxShadow: `0 0 0 1px ${Colors.purple}`,
-              }}
             />
           </FormControl>
           <Stack spacing={5}>
@@ -88,14 +80,14 @@ export const SignIn = () => {
             </Button>
           </Stack>
           <Stack>
-            <Text>
+            <Text align="center">
               No account?{" "}
               <Link
                 color={Colors.purple}
                 _hover={{ textDecoration: "none" }}
                 href="/auth/signup"
               >
-                Sign up now!
+                Sign up!
               </Link>
             </Text>
           </Stack>

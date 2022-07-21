@@ -1,14 +1,11 @@
-import { getSuperTokensRoutesForReactRouterDom } from "supertokens-auth-react";
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { redirectToAuth } from "supertokens-auth-react/recipe/emailpassword";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
-import * as reactRouterDom from "react-router-dom";
 import { Flex, useColorModeValue } from "@chakra-ui/react";
 
 import { Navbar } from "../Navbar";
 import { Home } from "./Home";
 import { Settings } from "./Settings";
-import { SignIn } from "./Auth/SignIn";
+import { SignIn, SignUp } from "./Auth";
 
 export const Pages = () => {
   const { doesSessionExist } = useSessionContext();
@@ -28,8 +25,6 @@ export const Pages = () => {
         bg={useColorModeValue("gray.50", "gray.800")}
       >
         <Routes>
-          {/* {getSuperTokensRoutesForReactRouterDom(reactRouterDom)} */}
-
           {doesSessionExist ? (
             <>
               <Route path="/" element={<Home />} />
@@ -38,6 +33,7 @@ export const Pages = () => {
           ) : (
             <>
               <Route path="/auth/signin" element={<SignIn />} />
+              <Route path="/auth/signup" element={<SignUp />} />
             </>
           )}
         </Routes>

@@ -20,9 +20,6 @@ SuperTokens.init({
       signInAndUpFeature: {
         disableDefaultUI: true,
       },
-      emailVerificationFeature: {
-        mode: "REQUIRED",
-      },
     }),
     Session.init(),
   ],

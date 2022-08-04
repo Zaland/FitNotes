@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validate } from "uuid";
+import { randomUUID } from "crypto";
 
 import knex from "../../db";
 
@@ -32,6 +33,25 @@ export class User {
       const result = await knex("user_settings").where("user_id", id).first();
       res.json(result);
     } catch (error) {
+      res.sendStatus(500);
+    }
+  };
+
+  createUser = async (req: Request, res: Response, _next: NextFunction) => {
+    try {
+      const { id, email, firstName, lastName } = req.body;
+
+      await knex("users").insert({
+        id,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+      });
+      await knex("user_settings").insert({ id: randomUUID(), user_id: id });
+
+      res.sendStatus(200);
+    } catch (error) {
+      console.log({ error });
       res.sendStatus(500);
     }
   };

@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Input } from "../../Reusable/Input";
+import { AuthService, UserService } from "../../../services";
 import { Colors } from "../../../theme";
 
 export const SignUp = () => {
@@ -23,12 +24,43 @@ export const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({ state: false, message: "" });
 
   const onSignUp = async () => {
     try {
+      setLoading(true);
+
+      const emailCheck = await AuthService.emailExists(email);
+
+      if (emailCheck.data.exists) {
+        setError({ state: true, message: "Email already exists." });
+      } else {
+        const signupResult = await AuthService.signup(email, password);
+
+        if (signupResult.data.status === "FIELD_ERROR") {
+          setError({
+            state: true,
+            message: signupResult.data.formFields[0].error,
+          });
+        } else {
+          await UserService.createUser(
+            signupResult.data.user.id,
+            email,
+            firstName,
+            lastName
+          );
+
+          window.location.href = "/";
+        }
+      }
     } catch (error) {
-      console.log({ error });
+      setError({
+        state: true,
+        message: "Something went wrong, please try again. ",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +75,7 @@ export const SignUp = () => {
       {error.state && (
         <Alert status="error" rounded={5}>
           <AlertIcon />
-          <Box width="100%">There was an error processing your request</Box>
+          <Box width="100%">{error.message}</Box>
           <CloseButton
             alignSelf="flex-end"
             position="relative"
@@ -95,6 +127,8 @@ export const SignUp = () => {
           </FormControl>
           <Stack spacing={5}>
             <Button
+              isLoading={loading}
+              loadingText="Signing up"
               onClick={onSignUp}
               bg={Colors.purple}
               color="white"

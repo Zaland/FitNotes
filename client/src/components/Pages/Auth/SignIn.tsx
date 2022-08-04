@@ -22,6 +22,7 @@ export const SignIn = () => {
   const handleSignIn = async () => {
     try {
       await AuthService.signin(email, password);
+      window.location.href = "/";
     } catch (error) {
       console.log({ error });
     }

@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid("id").notNullable().unique();
     table.uuid("user_id").notNullable();
     table.boolean("dark_mode").defaultTo(false);
-    table.timestamps();
+    table.timestamps(false, true);
   });
 
   return knex.schema.alterTable("user_settings", (table) => {

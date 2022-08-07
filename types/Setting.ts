@@ -1,3 +1,3 @@
 export type Setting = {
-  darkMode: boolean;
+  dark_mode: boolean;
 };

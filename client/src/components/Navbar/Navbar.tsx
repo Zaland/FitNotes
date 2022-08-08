@@ -12,13 +12,13 @@ import {
   MenuDivider,
   useDisclosure,
   Stack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
 import { signOut } from "supertokens-auth-react/recipe/emailpassword";
 
 import { NavLink } from "./NavLink";
-import { Colors } from "../../theme/colors";
 
 const Links = [{ label: "Home", path: "/" }];
 
@@ -32,14 +32,14 @@ export const Navbar = () => {
 
   return (
     <>
-      <Box bg={Colors.purple} px={4}>
+      <Box bg={useColorModeValue("purple.400", "purple.600")} px={4}>
         <Flex h={16} alignItems="center" justifyContent="space-between">
           <IconButton
             size="md"
-            bg={Colors.purple}
-            color={Colors.white}
+            bg="purple.400"
+            color="white"
             _hover={{
-              bg: Colors.purpleHover,
+              bg: useColorModeValue("purple.300", "purple.500"),
             }}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label="Open Menu"
@@ -47,7 +47,7 @@ export const Navbar = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems="center">
-            <Box color={Colors.white} fontWeight="bold" letterSpacing={2}>
+            <Box color="white" fontWeight="bold" letterSpacing={2}>
               FitNotes
             </Box>
             <HStack

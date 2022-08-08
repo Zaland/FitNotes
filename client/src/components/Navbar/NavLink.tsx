@@ -1,7 +1,5 @@
-import { Link } from "@chakra-ui/react";
+import { Link, useColorModeValue } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-
-import { Colors } from "../../theme/colors";
 
 type NavLinkProps = {
   label: string;
@@ -13,12 +11,12 @@ export const NavLink = ({ label, path }: NavLinkProps) => (
     px={3}
     py={2}
     rounded="md"
-    color={Colors.white}
+    color="white"
     fontWeight="bold"
     letterSpacing={2}
     _hover={{
       textDecoration: "none",
-      bg: Colors.purpleHover,
+      bg: useColorModeValue("purple.300", "purple.500"),
     }}
     as={RouterLink}
     to={path}

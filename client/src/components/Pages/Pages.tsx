@@ -1,18 +1,17 @@
 import { useSessionContext } from "supertokens-auth-react/recipe/session";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 
 import { Navbar } from "../Navbar";
 import { Home } from "./Home";
 import { Settings } from "./Settings";
 import { SignIn, SignUp, PrivateRoute } from "./Auth";
-import { Colors } from "../../theme";
 
 export const Pages = () => {
   const { doesSessionExist } = useSessionContext();
 
   return (
-    <Box bg={Colors.grey} h="100vh">
+    <Box bg={useColorModeValue("gray.100", "gray.800")} h="100vh">
       <BrowserRouter>
         {doesSessionExist && <Navbar />}
 

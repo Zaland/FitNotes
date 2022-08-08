@@ -8,16 +8,18 @@ import {
   FormControl,
   FormLabel,
   Switch,
-  CircularProgress,
+  Skeleton,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { UserService } from "../../../services";
-import { Colors } from "../../../theme";
 import { Setting } from "../../../../../types";
 
 export const Settings = () => {
   const [darkMode, setDarkMode] = useState(false);
   const { userId } = useSessionContext();
+  const { toggleColorMode } = useColorMode();
 
   const { isFetching } = useQuery(
     ["settings"],
@@ -31,31 +33,39 @@ export const Settings = () => {
   const { mutate: onUpdateSettings } = useMutation(
     (data: Setting) => UserService.updateSettings(userId, data),
     {
-      onSettled: () => setDarkMode((darkMode) => !darkMode),
+      onSettled: () => {
+        setDarkMode((darkMode) => !darkMode);
+        toggleColorMode();
+      },
     }
   );
 
-  return isFetching ? (
-    <CircularProgress isIndeterminate />
-  ) : (
+  return (
     <Stack spacing={8} mx="auto" maxW="lg" minW="md" py={12} px={6}>
       <Stack align="center">
         <Heading fontSize="4xl">Settings</Heading>
       </Stack>
-      <Box rounded="lg" bg={Colors.white} boxShadow="lg" p={8}>
-        <Stack spacing={4}>
-          <FormControl display="flex" alignItems="center">
-            <Switch
-              colorScheme="purple"
-              id="dark-mode"
-              isChecked={darkMode}
-              onChange={() => onUpdateSettings({ dark_mode: !darkMode })}
-            />
-            <FormLabel htmlFor="dark-mode" ml={3} mb={-1}>
-              Dark mode
-            </FormLabel>
-          </FormControl>
-        </Stack>
+      <Box
+        rounded="lg"
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow="lg"
+        p={8}
+      >
+        <Skeleton isLoaded={!isFetching}>
+          <Stack spacing={4}>
+            <FormControl display="flex" alignItems="center">
+              <Switch
+                colorScheme="purple"
+                id="dark-mode"
+                isChecked={darkMode}
+                onChange={() => onUpdateSettings({ dark_mode: !darkMode })}
+              />
+              <FormLabel htmlFor="dark-mode" ml={3} mb={-1}>
+                Dark mode
+              </FormLabel>
+            </FormControl>
+          </Stack>
+        </Skeleton>
       </Box>
     </Stack>
   );

@@ -42,7 +42,7 @@ export const Settings = () => {
       <Stack align="center">
         <Heading fontSize="4xl">Settings</Heading>
       </Stack>
-      <Box rounded="lg" bg={Colors.grey} boxShadow="lg" p={8}>
+      <Box rounded="lg" bg={Colors.white} boxShadow="lg" p={8}>
         <Stack spacing={4}>
           <FormControl display="flex" alignItems="center">
             <Switch

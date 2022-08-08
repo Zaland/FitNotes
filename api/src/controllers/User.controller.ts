@@ -34,7 +34,6 @@ export class User {
 
       res.sendStatus(200);
     } catch (error) {
-      console.log({ error });
       res.sendStatus(500);
     }
   };
@@ -48,7 +47,6 @@ export class User {
       }
 
       const result = await knex("user_settings").where("user_id", id).first();
-      console.log({ result, id });
       res.json(result);
     } catch (error) {
       res.sendStatus(500);
@@ -59,8 +57,6 @@ export class User {
     try {
       const { id } = req.params;
       const { data } = req.body;
-
-      console.log({ id, data });
 
       if (!validate(id)) {
         return res.status(400).send("Invalid uuid");

@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { UserController } from "../controllers/User.controller";
+import { UserController, SettingsController } from "../controllers";
 
 const router = Router();
 
 router.get("/:id", UserController.getUser);
 router.post("", UserController.createUser);
-router.get("/:id/settings", UserController.getSettings);
-router.put("/:id/settings", UserController.updateSettings);
+
+router.get("/:id/settings", SettingsController.getSettings);
+router.put("/:id/settings", SettingsController.updateSettings);
 
 export default router;

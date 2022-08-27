@@ -8,9 +8,9 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("users").insert([
     {
       id: "ff3a5bd5-3baa-4054-ae3e-13349a200cf6",
-      first_name: "Zaland",
-      last_name: "Khan",
-      email: "zalandkhan1@gmail.com",
+      first_name: "John",
+      last_name: "Wick",
+      email: "johnwick@gmail.com",
       created_at: knex.fn.now(),
       updated_at: knex.fn.now(),
     },

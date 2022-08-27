@@ -18,6 +18,12 @@
     }
   },
   "include": [
-    "src/**/*"
-, "knexfile.ts"  ]
+    "src/**/*",
+    "knexfile.ts",
+  ],
+  "exclude": [
+    "./tests/",
+    "./node_modules/",
+    "./dist/"
+  ],
 }

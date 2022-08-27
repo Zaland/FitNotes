@@ -14,7 +14,12 @@ export class User {
       }
 
       const result = await knex("users").where("id", id).first();
-      res.json(result);
+
+      if (result) {
+        res.json(result);
+      } else {
+        res.status(404).send({ message: id });
+      }
     } catch (error) {
       res.sendStatus(500);
     }
@@ -23,6 +28,12 @@ export class User {
   createUser = async (req: Request, res: Response, _next: NextFunction) => {
     try {
       const { id, email, firstName, lastName } = req.body;
+
+      const response = await knex("users").where({ id }).first();
+
+      if (response) {
+        return res.status(400).send({ message: response });
+      }
 
       await knex("users").insert({
         id,
@@ -34,7 +45,7 @@ export class User {
 
       res.sendStatus(200);
     } catch (error) {
-      res.sendStatus(500);
+      res.send(error);
     }
   };
 }

@@ -8,3 +8,13 @@ services:
       POSTGRES_USER: ${API_USER}
       POSTGRES_PASSWORD: ${API_PASSWORD}
       POSTGRES_DB: ${API_DATABASE}
+
+  db-test:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${API_USER}
+      POSTGRES_PASSWORD: ${API_PASSWORD}
+      POSTGRES_DB: ${API_DATABASE}
+    ports:
+      - 5433:5432

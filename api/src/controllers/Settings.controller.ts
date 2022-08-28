@@ -12,9 +12,14 @@ export class Settings {
         return res.status(400).send("Invalid uuid");
       }
 
-      const result = await knex("user_settings").where("user_id", id).first();
-      res.json(result);
-    } catch (error) {
+      const result = await knex("user_settings").where({ user_id: id }).first();
+
+      if (result) {
+        return res.json(result);
+      }
+
+      res.sendStatus(404);
+    } catch (_error) {
       res.sendStatus(500);
     }
   };
@@ -28,12 +33,17 @@ export class Settings {
         return res.status(400).send("Invalid uuid");
       }
 
-      const result = await knex("user_settings")
-        .where("user_id", id)
-        .update(data);
+      const userSetting = await knex("user_settings")
+        .where({ user_id: id })
+        .first();
 
-      res.sendStatus(200);
-    } catch (error) {
+      if (userSetting) {
+        await knex("user_settings").where({ user_id: id }).update(data);
+        return res.sendStatus(200);
+      }
+
+      res.sendStatus(404);
+    } catch (_error) {
       res.sendStatus(500);
     }
   };

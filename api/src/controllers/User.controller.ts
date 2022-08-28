@@ -16,11 +16,11 @@ export class User {
       const result = await knex("users").where("id", id).first();
 
       if (result) {
-        res.json(result);
-      } else {
-        res.status(404).send({ message: id });
+        return res.json(result);
       }
-    } catch (error) {
+
+      res.sendStatus(404);
+    } catch (_error) {
       res.sendStatus(500);
     }
   };
@@ -44,8 +44,30 @@ export class User {
       await knex("user_settings").insert({ id: randomUUID(), user_id: id });
 
       res.sendStatus(200);
-    } catch (error) {
-      res.send(error);
+    } catch (_error) {
+      res.sendStatus(500);
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response, _next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      if (!validate(id)) {
+        return res.status(400).send("Invalid uuid");
+      }
+
+      const user = await knex("users").where({ id }).first();
+
+      if (user) {
+        await knex("user_settings").where({ user_id: id }).del();
+        await knex("users").where({ id }).del();
+        return res.sendStatus(200);
+      }
+
+      res.sendStatus(204);
+    } catch (_error) {
+      res.sendStatus(500);
     }
   };
 }

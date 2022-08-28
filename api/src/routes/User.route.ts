@@ -4,6 +4,7 @@ import { UserController, SettingsController } from "../controllers";
 const router = Router();
 
 router.get("/:id", UserController.getUser);
+router.delete("/:id", UserController.deleteUser);
 router.post("", UserController.createUser);
 
 router.get("/:id/settings", SettingsController.getSettings);

@@ -16,9 +16,9 @@ class User {
   ) => Axios.post(`${this.apiDomain}/user`, { id, email, firstName, lastName });
 
   getSettings = (id: string) =>
-    Axios.get(`${this.apiDomain}/user/${id}/settings`).then(
-      (response) => response.data
-    );
+    Axios.get(`${this.apiDomain}/user/${id}/settings`)
+      .then((response) => response.data)
+      .catch((error) => error);
 
   updateSettings = (id: string, data: Setting) =>
     Axios.put(`${this.apiDomain}/user/${id}/settings`, { data });

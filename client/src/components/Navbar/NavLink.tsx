@@ -3,10 +3,11 @@ import { Link as RouterLink } from "react-router-dom";
 
 type NavLinkProps = {
   label: string;
-  path: string;
+  path?: string;
+  onClick?: () => void;
 };
 
-export const NavLink = ({ label, path }: NavLinkProps) => (
+export const NavLink = ({ label, path, onClick }: NavLinkProps) => (
   <Link
     px={3}
     py={2}
@@ -20,6 +21,7 @@ export const NavLink = ({ label, path }: NavLinkProps) => (
     }}
     as={RouterLink}
     to={path}
+    onClick={onClick}
   >
     {label}
   </Link>

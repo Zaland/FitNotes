@@ -1,8 +1,13 @@
 import axios from "axios";
-import Session from "supertokens-auth-react/recipe/session";
 
 const axiosInstance = axios.create();
 
-Session.addAxiosInterceptors(axiosInstance);
+// export const addInterceptor = (getAccessTokenSilently: any) => {
+//   axiosInstance.interceptors.request.use(async (config) => {
+//     const token = await getAccessTokenSilently();
+//     config.headers.Authorization = `Bearer ${token}`;
+//     return config;
+//   });
+// };
 
 export const Axios = axiosInstance;

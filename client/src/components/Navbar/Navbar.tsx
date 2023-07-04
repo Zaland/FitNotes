@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
-import { signOut } from "supertokens-auth-react/recipe/emailpassword";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import { NavLink } from "./NavLink";
 
@@ -24,10 +24,10 @@ const Links = [{ label: "Home", path: "/" }];
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   const handleLogout = async () => {
-    await signOut();
-    window.location.href = "/auth/signin";
+    await logout({ logoutParams: { returnTo: window.location.origin } });
   };
 
   return (
@@ -55,30 +55,39 @@ export const Navbar = () => {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
-                <NavLink key={link.label} label={link.label} path={link.path} />
-              ))}
+              {isAuthenticated &&
+                Links.map((link) => (
+                  <NavLink
+                    key={link.label}
+                    label={link.label}
+                    path={link.path}
+                  />
+                ))}
             </HStack>
           </HStack>
           <Flex alignItems="center">
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded="full"
-                variant="link"
-                cursor="pointer"
-                minW={0}
-              >
-                <Avatar size="sm" />
-              </MenuButton>
-              <MenuList>
-                <MenuItem as={RouterLink} to="/settings">
-                  Settings
-                </MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={handleLogout}>Sign out</MenuItem>
-              </MenuList>
-            </Menu>
+            {isAuthenticated ? (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded="full"
+                  variant="link"
+                  cursor="pointer"
+                  minW={0}
+                >
+                  <Avatar size="sm" />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem as={RouterLink} to="/settings">
+                    Settings
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={handleLogout}>Sign out</MenuItem>
+                </MenuList>
+              </Menu>
+            ) : (
+              <NavLink label={"Sign in"} onClick={loginWithRedirect} />
+            )}
           </Flex>
         </Flex>
 

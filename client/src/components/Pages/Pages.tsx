@@ -1,31 +1,64 @@
-import { useSessionContext } from "supertokens-auth-react/recipe/session";
-import { Routes, BrowserRouter, Route } from "react-router-dom";
-import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Box, Flex, useColorModeValue, useColorMode } from "@chakra-ui/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useQuery } from "@tanstack/react-query";
 
 import { Navbar } from "../Navbar";
 import { Home } from "./Home";
 import { Settings } from "./Settings";
-import { SignIn, SignUp, PrivateRoute } from "./Auth";
+import { ProtectedRoute } from "./Auth";
+import { UserService } from "../../services";
 
 export const Pages = () => {
-  const { doesSessionExist } = useSessionContext();
+  const [darkMode, setDarkMode] = useState(false);
+  const { setColorMode } = useColorMode();
+  const { user } = useAuth0();
+  const userId = user?.sub?.split("|")[1] || "";
+
+  const { isFetching } = useQuery(
+    ["settings"],
+    () => UserService.getSettings(userId),
+    {
+      initialData: {},
+      onSettled: ({ dark_mode }) => {
+        setDarkMode(dark_mode);
+      },
+      enabled: !!userId,
+    }
+  );
+
+  useEffect(() => {
+    setColorMode(darkMode ? "dark" : "light");
+  }, [setColorMode, darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   return (
     <Box bg={useColorModeValue("gray.100", "gray.800")} h="100vh">
-      <BrowserRouter>
-        {doesSessionExist && <Navbar />}
+      {!isFetching && (
+        <>
+          <Navbar />
 
-        <Flex align="center" justify="center">
-          <Routes>
-            <Route path="/auth/signin" element={<SignIn />} />
-            <Route path="/auth/signup" element={<SignUp />} />
-            <Route path="/" element={<PrivateRoute />}>
-              <Route index element={<Home />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
-          </Routes>
-        </Flex>
-      </BrowserRouter>
+          <Flex align="center" justify="center">
+            <Routes>
+              <Route path="/" element={<ProtectedRoute component={Home} />} />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute
+                    component={Settings}
+                    darkMode={darkMode}
+                    toggleDarkMode={toggleDarkMode}
+                  />
+                }
+              />
+            </Routes>
+          </Flex>
+        </>
+      )}
     </Box>
   );
 };

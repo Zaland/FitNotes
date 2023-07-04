@@ -11,18 +11,18 @@ dotenv.config();
 // init express app
 const app = express();
 
-// auth0 config
-const config = {
-  authRequired: process.env.ENVIRONMENT === "test" ? false : true,
-  auth0Logout: true,
-  secret: process.env.AUTH0_SECRET,
-  baseURL: process.env.AUTH0_BASE_URL,
-  clientID: process.env.AUTH0_CLIENT_ID,
-  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
-};
+// // auth0 config
+// const config = {
+//   authRequired: process.env.ENVIRONMENT === "test" ? false : true,
+//   auth0Logout: true,
+//   secret: process.env.AUTH0_SECRET,
+//   baseURL: process.env.AUTH0_BASE_URL,
+//   clientID: process.env.AUTH0_CLIENT_ID,
+//   issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+// };
 
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
+// // auth router attaches /login, /logout, and /callback routes to the baseURL
+// app.use(auth(config));
 
 // bodyparser
 app.use(bodyParser.json());
@@ -38,5 +38,9 @@ app.use(
 
 // endpoints
 app.use("/user", UserRouter);
+
+// app.get("/authorize", (req, res) => {
+//   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
+// });
 
 export default app;

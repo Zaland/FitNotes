@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { requiresAuth } from "express-openid-connect";
 import { UserController, SettingsController } from "../controllers";
 
 const router = Router();

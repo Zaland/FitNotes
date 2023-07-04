@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { validate } from "uuid";
 
 import knex from "../../db";
 
@@ -8,17 +7,17 @@ export class Settings {
     try {
       const { id } = req.params;
 
-      if (!validate(id)) {
-        return res.status(400).send("Invalid uuid");
-      }
-
-      const result = await knex("user_settings").where({ user_id: id }).first();
+      const result = await knex("user_settings")
+        .join("users", "users.id", "user_settings.user_id")
+        .where("users.auth_id", id)
+        .select("dark_mode")
+        .first();
 
       if (result) {
         return res.json(result);
       }
 
-      res.sendStatus(404);
+      res.status(404).send("User does not exist");
     } catch (_error) {
       res.sendStatus(500);
     }
@@ -29,16 +28,14 @@ export class Settings {
       const { id } = req.params;
       const { data } = req.body;
 
-      if (!validate(id)) {
-        return res.status(400).send("Invalid uuid");
-      }
-
-      const userSetting = await knex("user_settings")
-        .where({ user_id: id })
+      const { user_id } = await knex("user_settings")
+        .join("users", "users.id", "user_settings.user_id")
+        .where("users.auth_id", id)
+        .select("user_id")
         .first();
 
-      if (userSetting) {
-        await knex("user_settings").where({ user_id: id }).update(data);
+      if (user_id) {
+        await knex("user_settings").where({ user_id }).update(data);
         return res.sendStatus(200);
       }
 

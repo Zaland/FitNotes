@@ -48,7 +48,6 @@ export const Settings = ({ darkMode, toggleDarkMode }: SettingsProps) => {
         <Stack spacing={4}>
           <FormControl display="flex" alignItems="center">
             <Switch
-              colorScheme="purple"
               id="dark-mode"
               isChecked={darkMode}
               onChange={() => onUpdateSettings({ dark_mode: !darkMode })}

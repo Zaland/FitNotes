@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Auth0Provider, AppState } from "@auth0/auth0-react";
 
 import { Pages } from "./components/Pages";
+import { theme } from "./theme";
 
 const Auth0ProviderWithRedirectCallback = ({ children, ...props }: any) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const queryClient = new QueryClient();
 
 export const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Auth0ProviderWithRedirectCallback
           domain={process.env.REACT_APP_AUTH0_DOMAIN || ""}
